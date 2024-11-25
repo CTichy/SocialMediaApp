@@ -75,8 +75,8 @@ if __name__ == "__main__":
     db = PostDatabase()
 
     # Example usage
-    example_image_path = "C:\\Users\\Carlos Tichy\\Pictures\\chicken.jpeg"
-    db.add_post(image_path=example_image_path, text="My first post!", user="user123")
+    example_image_path = "C:\\Users\\Carlos Tichy\\Pictures\\pig.jpeg"
+    db.add_post(image_path=example_image_path, text="My third post!", user="user123")
 
     latest_post = db.get_latest_post()
     if latest_post:
