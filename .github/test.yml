@@ -7,12 +7,24 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      # Step 1: Checkout the repository
       - uses: actions/checkout@v2
+
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
+
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: pip install pytest
+
+      # Step 4: Wipe the database (delete posts.db if it exists)
+      - name: Wipe the database
+        run: |
+          if exist posts.db del posts.db
+
+      # Step 5: Run tests
       - name: Run tests
         run: pytest
