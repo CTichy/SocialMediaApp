@@ -1,1 +1,9 @@
-pytest==7.4.2  # For running your test suite
+fastapi
+uvicorn
+pydantic
+pytest
+pytest-cov
+bcrypt
+python-jose
+passlib[bcrypt]
+requests

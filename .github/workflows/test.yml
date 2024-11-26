@@ -1,21 +1,21 @@
-name: CI for SocialMediaApp (Windows Only)
+name: CI for SocialMediaApp
 
-on: [push, pull_request]  # Trigger workflow on push and pull requests
+on: [push, pull_request]
 
 jobs:
   test:
-    runs-on: windows-latest  # Specify Windows 64-bit environment
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the repository
+      # Step 1: Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Step 2: Set up Python
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.8'  # Use Python 3.8
+          python-version: "3.10"
 
       # Step 3: Install dependencies
       - name: Install dependencies
@@ -23,16 +23,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Step 4: Debug environment
-      - name: Debug environment
-        run: |
-          echo "Current directory:"
-          cd
-          echo "Files in directory:"
-          dir
-          echo "Python version:"
-          python --version
-
-      # Step 5: Run tests
+      # Step 4: Run the tests
       - name: Run tests
         run: pytest
