@@ -21,7 +21,7 @@ class TestPostDatabase(unittest.TestCase):
         Test adding a post to the database and retrieving it.
         """
         # Add a new post
-        self.db.add_post(image_path="test//images//chicken.jpeg", text="Test post", user="user1")
+        self.db.add_post(image_path="chicken.jpeg", text="Test post", user="user1")
 
         # Retrieve the latest post
         latest_post = self.db.get_latest_post()
@@ -45,8 +45,8 @@ class TestPostDatabase(unittest.TestCase):
         Test adding multiple posts and retrieving the latest one.
         """
         # Add multiple posts
-        self.db.add_post(image_path="test//images//donkey.jpeg", text="Post 1", user="user1")
-        self.db.add_post(image_path="test//images//pig.jpeg", text="Post 2", user="user2")
+        self.db.add_post(image_path="donkey.jpeg", text="Post 1", user="user1")
+        self.db.add_post(image_path="pig.jpeg", text="Post 2", user="user2")
 
         # Retrieve the latest post
         latest_post = self.db.get_latest_post()
@@ -62,7 +62,7 @@ class TestPostDatabase(unittest.TestCase):
         Test wiping the database by deleting all entries.
         """
         # Add a post
-        self.db.add_post(image_path="test//images//chicken.jpeg", text="To be deleted", user="user1")
+        self.db.add_post(image_path="chicken.jpeg", text="To be deleted", user="user1")
 
         # Wipe the database (simulate by clearing the table)
         with self.db.conn:
