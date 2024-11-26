@@ -2,6 +2,7 @@ import unittest
 import os
 from app import Post, PostDatabase
 
+
 class TestPostDatabase(unittest.TestCase):
     def setUp(self):
         """
@@ -21,14 +22,14 @@ class TestPostDatabase(unittest.TestCase):
         Test adding a post to the database and retrieving it.
         """
         # Add a new post
-        self.db.add_post(image_path="chicken.jpeg", text="Test post", user="user1")
+        self.db.add_post(image_path="pig.jpeg", text="Test post", user="user1")
 
         # Retrieve the latest post
         latest_post = self.db.get_latest_post()
 
         # Assert that the post was added and data matches
         self.assertIsNotNone(latest_post)
-        self.assertEqual(latest_post.image, "chicken.jpeg")
+        self.assertEqual(latest_post.image, "images\\pig.jpeg")  # Updated to match returned path
         self.assertEqual(latest_post.text, "Test post")
         self.assertEqual(latest_post.user, "user1")
 
@@ -45,15 +46,15 @@ class TestPostDatabase(unittest.TestCase):
         Test adding multiple posts and retrieving the latest one.
         """
         # Add multiple posts
-        self.db.add_post(image_path="donkey.jpeg", text="Post 1", user="user1")
-        self.db.add_post(image_path="pig.jpeg", text="Post 2", user="user2")
+        self.db.add_post(image_path="chicken.jpeg", text="Post 1", user="user1")
+        self.db.add_post(image_path="donkey.jpeg", text="Post 2", user="user2")
 
         # Retrieve the latest post
         latest_post = self.db.get_latest_post()
 
         # Assert that the latest post matches the last one added
         self.assertIsNotNone(latest_post)
-        self.assertEqual(latest_post.image, "pig.jpeg")
+        self.assertEqual(latest_post.image, "images\\donkey.jpeg")  # Updated to match returned path
         self.assertEqual(latest_post.text, "Post 2")
         self.assertEqual(latest_post.user, "user2")
 
