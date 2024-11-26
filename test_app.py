@@ -29,7 +29,7 @@ class TestPostDatabase(unittest.TestCase):
 
         # Assert that the post was added and data matches
         self.assertIsNotNone(latest_post)
-        self.assertEqual(latest_post.image, "images\\pig.jpeg")  # Updated to match returned path
+        self.assertEqual(latest_post.image, "images//pig.jpeg")  # Updated to match returned path
         self.assertEqual(latest_post.text, "Test post")
         self.assertEqual(latest_post.user, "user1")
 
@@ -54,7 +54,7 @@ class TestPostDatabase(unittest.TestCase):
 
         # Assert that the latest post matches the last one added
         self.assertIsNotNone(latest_post)
-        self.assertEqual(latest_post.image, "images\\donkey.jpeg")  # Updated to match returned path
+        self.assertEqual(latest_post.image, "images//donkey.jpeg")  # Updated to match returned path
         self.assertEqual(latest_post.text, "Post 2")
         self.assertEqual(latest_post.user, "user2")
 
