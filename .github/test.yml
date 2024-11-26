@@ -1,14 +1,18 @@
-name: CI for SocialMediaApp
+name: Cross-Platform CI for SocialMediaApp
 
-on: [push, pull_request]
+on: [push, pull_request]  # Trigger on push or pull requests
 
 jobs:
   test:
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}  # Use the matrix strategy for cross-platform testing
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]  # Test on Ubuntu, Windows, and macOS
 
     steps:
       # Step 1: Checkout the repository
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       # Step 2: Set up Python
       - name: Set up Python
@@ -20,10 +24,11 @@ jobs:
       - name: Install dependencies
         run: pip install pytest
 
-      # Step 4: Wipe the database (delete posts.db if it exists)
+      # Step 4: Wipe the database (platform-specific logic)
       - name: Wipe the database
         run: |
-          if exist posts.db del posts.db
+          if [[ ${{ matrix.os }} == "windows-latest" ]]; then if exist posts.db del posts.db; fi
+          if [[ ${{ matrix.os }} == "ubuntu-latest" || ${{ matrix.os }} == "macos-latest" ]]; then rm -f posts.db; fi
 
       # Step 5: Run tests
       - name: Run tests
