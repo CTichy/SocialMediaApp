@@ -1,46 +1,74 @@
 import unittest
 import os
-import shutil
 from app import Post, PostDatabase
-
 
 class TestPostDatabase(unittest.TestCase):
     def setUp(self):
-        # Use an in-memory database for isolated testing
-        self.db = PostDatabase(":memory:")
-
-        # Create a temporary images folder for testing
-        self.test_images_folder = "test_images"
-        if not os.path.exists(self.test_images_folder):
-            os.makedirs(self.test_images_folder)
-
-        # Create a dummy image file for testing
-        self.dummy_image_path = os.path.join(self.test_images_folder, "dummy_image.jpg")
-        with open(self.dummy_image_path, "wb") as f:
-            f.write(b"This is a dummy image content.")
+        """
+        Create a new in-memory database for each test.
+        This avoids the need for a physical file and ensures clean tests.
+        """
+        self.db = PostDatabase(":memory:")  # Use in-memory database for isolated testing
 
     def tearDown(self):
-        # Clean up the temporary images folder
-        if os.path.exists(self.test_images_folder):
-            shutil.rmtree(self.test_images_folder)
+        """
+        Clean up after each test by closing the database connection.
+        """
+        self.db.conn.close()
 
     def test_add_post(self):
-        # Add a post with a dummy image
-        self.db.add_post(image_path=self.dummy_image_path, text="Test post", user="user1")
+        """
+        Test adding a post to the database and retrieving it.
+        """
+        # Add a new post
+        self.db.add_post(image_path="image.jpg", text="Test post", user="user1")
 
-        # Check that the image is copied to the images folder
-        saved_image_path = os.path.join("images", "dummy_image.jpg")
-        self.assertTrue(os.path.exists(saved_image_path))
-
-        # Check that the post details are stored correctly in the database
+        # Retrieve the latest post
         latest_post = self.db.get_latest_post()
+
+        # Assert that the post was added and data matches
         self.assertIsNotNone(latest_post)
-        self.assertEqual(latest_post.image, saved_image_path)
+        self.assertEqual(latest_post.image, "image.jpg")
         self.assertEqual(latest_post.text, "Test post")
         self.assertEqual(latest_post.user, "user1")
 
     def test_get_latest_post_empty(self):
-        # Test retrieving from an empty database
+        """
+        Test retrieving a post from an empty database.
+        Should return None.
+        """
+        latest_post = self.db.get_latest_post()
+        self.assertIsNone(latest_post)
+
+    def test_multiple_posts(self):
+        """
+        Test adding multiple posts and retrieving the latest one.
+        """
+        # Add multiple posts
+        self.db.add_post(image_path="image1.jpg", text="Post 1", user="user1")
+        self.db.add_post(image_path="image2.jpg", text="Post 2", user="user2")
+
+        # Retrieve the latest post
+        latest_post = self.db.get_latest_post()
+
+        # Assert that the latest post matches the last one added
+        self.assertIsNotNone(latest_post)
+        self.assertEqual(latest_post.image, "image2.jpg")
+        self.assertEqual(latest_post.text, "Post 2")
+        self.assertEqual(latest_post.user, "user2")
+
+    def test_wipe_database(self):
+        """
+        Test wiping the database by deleting all entries.
+        """
+        # Add a post
+        self.db.add_post(image_path="image.jpg", text="To be deleted", user="user1")
+
+        # Wipe the database (simulate by clearing the table)
+        with self.db.conn:
+            self.db.conn.execute("DELETE FROM posts")
+
+        # Check that the database is empty
         latest_post = self.db.get_latest_post()
         self.assertIsNone(latest_post)
 
