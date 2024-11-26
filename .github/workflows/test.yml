@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-latest, ubuntu-latest, macos-latest]
 
     steps:
       - name: Checkout code
@@ -29,6 +29,8 @@ jobs:
           pwd
           echo "Files in directory:"
           ls -al
+          echo "Python version:"
+          python --version
 
       - name: Run tests
         run: pytest test_app.py
