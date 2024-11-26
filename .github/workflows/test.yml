@@ -1,36 +1,38 @@
-name: Cross-Platform CI for SocialMediaApp
+name: CI for SocialMediaApp (Windows Only)
 
-on: [push, pull_request]
+on: [push, pull_request]  # Trigger workflow on push and pull requests
 
 jobs:
   test:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: windows-latest  # Specify Windows 64-bit environment
 
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Step 2: Set up Python
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.8'  # Use Python 3.8
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Step 4: Debug environment
       - name: Debug environment
         run: |
           echo "Current directory:"
-          pwd
+          cd
           echo "Files in directory:"
-          ls -al
+          dir
           echo "Python version:"
           python --version
 
+      # Step 5: Run tests
       - name: Run tests
-        run: pytest test_app.py
+        run: pytest
