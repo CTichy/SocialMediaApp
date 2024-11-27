@@ -8,8 +8,8 @@ app = FastAPI(
     description="A backend for managing users and posts in a social media app.",
     version="1.0.0",
     contact={
-        "name": "Your Name",
-        "email": "youremail@example.com",
+        "name": "Carlos E. Tichy",
+        "email": "carlos.tichy@gmail.com",
     },
 )
 

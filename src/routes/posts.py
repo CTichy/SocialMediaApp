@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, HTTPException, UploadFile, Form
 from src.db import Database
 
@@ -33,6 +34,10 @@ async def create_post(
         return {"message": "Post created successfully"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        # Ensure the temporary file is always removed
+        if os.path.exists(temp_image_path):
+            os.remove(temp_image_path)
 
 
 @router.get("/latest/")

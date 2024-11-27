@@ -139,3 +139,19 @@ def get_db() -> Generator[Database, None, None]:
         yield db
     finally:
         db.close()
+
+
+# ------------------- Tests save_image_to_folder --------------
+
+def test_save_image_to_folder_valid():
+    db = Database()
+    test_image = "tests/test_image.jpg"  # Add a small dummy image in the `tests` folder
+    os.makedirs("tests/images", exist_ok=True)
+    
+    saved_path = db.save_image_to_folder(test_image, "tests/images")
+    assert os.path.exists(saved_path)
+
+def test_save_image_to_folder_invalid():
+    db = Database()
+    with pytest.raises(Exception, match="Image file not found"):
+        db.save_image_to_folder("non_existent_file.jpg")
