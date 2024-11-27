@@ -9,3 +9,4 @@ passlib[bcrypt]
 requests
 httpx
 python-multipart
+Pillow
