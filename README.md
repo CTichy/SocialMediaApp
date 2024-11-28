@@ -24,7 +24,7 @@ A simple social media app backend built using FastAPI.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/SocialMediaApp.git
+   git clone https://github.com/CTichy/SocialMediaApp.git
    ```
 
 2. Navigate to the project directory:
