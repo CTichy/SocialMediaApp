@@ -1,4 +1,3 @@
-```markdown
 # SocialMediaApp
 
 A simple social media app backend built using FastAPI.
